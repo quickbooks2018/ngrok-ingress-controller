@@ -4,10 +4,15 @@
 
 - https://github.com/ngrok/kubernetes-ingress-controller
 
+- deploy eks cluster with terraform with single command
+```bash
+terraform init && terraform apply -auto-approve
+```
+
 - signup for ngrok account is required to get authtoken and api key
 - must reset the authoken because it is for teams
 - https://ngrok.com/blog-post/ngrok-k8s
-- 
+
 ## Installation with helm
 
 ```bash
