@@ -56,23 +56,21 @@ kind: Deployment
 metadata:
   name: hello
   namespace: hello
-  
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
         app: hello
-    template:
-        metadata:
-        labels:
-            app: hello
-        spec:
-        containers:
+    spec:
+      containers:
         - name: hello
-            image: gcr.io/google-samples/hello-app:1.0
-            ports:
-            - containerPort: 8080
----
+          image: docker.io/nginx:latest
+          ports:
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -82,29 +80,29 @@ metadata:
 spec:
   ports:
     - port: 80
-        protocol: TCP
-        targetPort: 80
+      protocol: TCP
+      targetPort: 80
   selector:
     app: hello
   type: ClusterIP
----  
+
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hello-ingress
   namespace: hello
-  annotations:
-    kubernetes.io/ingress.class: ngrok
 spec:
+  ingressClassName: ngrok
   rules:
-    - host: hello.localhost
-        http:
+    - host: central-bat-merely.ngrok-free.app
+      http:
         paths:
           - path: /
-              pathType: Prefix
-              backend:
+            pathType: Prefix
+            backend:
               service:
                 name: hello
                 port:
-                number: 80
+                  number: 80
 ```
