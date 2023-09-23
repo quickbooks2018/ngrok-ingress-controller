@@ -1,6 +1,6 @@
 # ngrok ingress controller
 
-- eks cluster with terraform https://github.com/quickbooks2018/aws-eks-blueprints.git (Note: tested with kind cluster, currently not working, may be in future)
+- eks cluster with terraform https://github.com/quickbooks2018/aws-eks-blueprints.git
 
 - https://github.com/ngrok/kubernetes-ingress-controller
 
@@ -48,3 +48,63 @@ helm create hello
 cd hello
 helm -n hello upgrade --install hello --create-namespace -f values.yaml ./
  ```
+- ingress setup
+```yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  namespace: hello
+  
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+        app: hello
+    template:
+        metadata:
+        labels:
+            app: hello
+        spec:
+        containers:
+        - name: hello
+            image: gcr.io/google-samples/hello-app:1.0
+            ports:
+            - containerPort: 8080
+---
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+  namespace: hello
+spec:
+  ports:
+    - port: 80
+        protocol: TCP
+        targetPort: 80
+  selector:
+    app: hello
+  type: ClusterIP
+---  
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  namespace: hello
+  annotations:
+    kubernetes.io/ingress.class: ngrok
+spec:
+  rules:
+    - host: hello.localhost
+        http:
+        paths:
+          - path: /
+              pathType: Prefix
+              backend:
+              service:
+                name: hello
+                port:
+                number: 80
+```
