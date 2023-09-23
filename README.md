@@ -1,6 +1,6 @@
 # ngrok ingress controller
 
-- eks cluster with terraform https://github.com/quickbooks2018/aws-eks-blueprints.git (Note: test with kind cluster not working)
+- eks cluster with terraform https://github.com/quickbooks2018/aws-eks-blueprints.git (Note: tested with kind cluster, currently not working, may be in future)
 
 - https://github.com/ngrok/kubernetes-ingress-controller
 
