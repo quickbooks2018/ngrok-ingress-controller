@@ -1,5 +1,7 @@
 # ngrok ingress controller
 
+- eks cluster with terraform https://github.com/quickbooks2018/aws-eks-blueprints.git (Note: test with kind cluster not working)
+
 - https://github.com/ngrok/kubernetes-ingress-controller
 
 - signup for ngrok account is required to get authtoken and api key
@@ -41,4 +43,3 @@ helm create hello
 cd hello
 helm -n hello upgrade --install hello --create-namespace -f values.yaml ./
  ```
-
